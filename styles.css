@@ -21,3 +21,12 @@ ol>li {
     color: var(--lists);
 }
 
+* {
+   font-style: italic;
+   font-size: 1em;
+   font-weight: normal;
+   font-family: sans-serif;
+}
+
+
+
