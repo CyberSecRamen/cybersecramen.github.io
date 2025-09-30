@@ -52,4 +52,6 @@ img:hover {
   100% { transform: scale(1, 1); }
 }
 
-
+a[href="/class_links.html"] {
+  color: rgb(255, 0, 0);
+}
