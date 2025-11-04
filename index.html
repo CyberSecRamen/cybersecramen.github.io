@@ -32,7 +32,15 @@
         <li>JSON</li>
         <li>Python</li>
     </ol>
-    <button type="button">Button for pressing.</button>
+    <button tag=button1>Button for pressing.</button>
+    <script>
+        const button1 = document.getElementsByTagName("button1");
+        button1.addEventListener("clicked", buttonnoise1);
+        function buttonnoise1 () {
+            console.log("clicked");
+        }
+        
+    </script>
     <audio controls>
         <source src="mooseec.wav" type="audio/wav">
 
