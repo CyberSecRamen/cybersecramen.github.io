@@ -22,6 +22,9 @@
     if (event.key === "ArrowUp") {
      fontSize *= 1.1;
       balon.style.fontSize = fontSize + "px"
+      if (fontSize > 50) {
+        balon.innerText = "💥"
+      }
     event.preventDefault();
   } 
     
