@@ -2,107 +2,130 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Element Challenge</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 600px;
-            margin: 2rem auto;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input Element Challenge</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      transition: background-color 0.3s;
+    }
 
-        section {
-            margin-bottom: 1.5rem;
-        }
+    section {
+      margin-bottom: 1.5rem;
+    }
 
-        label {
-            display: block;
-            margin-top: 0.5rem;
-        }
+    label {
+      display: block;
+      margin-top: 0.5rem;
+    }
 
-        button {
-            margin-top: 1rem;
-        }
+    button {
+      margin-top: 1rem;
+    }
 
-        .output {
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-    </style>
+    .output {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
-    <h1>Input Element Challenge</h1>
+  <h1>Input Element Challenge</h1>
 
-    <section id="part1">
-        <h2>Part 1: Text and Number Inputs</h2>
-        <label>
-            Name:
-            <input id="nameInput" type="text" placeholder="Enter your name">
-        </label>
-        <label>
-            Age:
-            <input id="ageInput" type="number" min="0" max="120">
-        </label>
-        <button id="btnGreet">Greet Me</button>
-        <div class="output" id="greetingOutput"></div>
-    </section>
+  <!-- PART 1 -->
+  <section id="part1">
+    <h2>Part 1: Text and Number Inputs</h2>
+    <label>
+      Name:
+      <input id="nameInput" type="text" placeholder="Enter your name" />
+    </label>
+    <label>
+      Age:
+      <input id="ageInput" type="number" min="0" max="120" />
+    </label>
+    <button id="btnGreet">Greet Me</button>
+    <div class="output" id="greetingOutput"></div>
+  </section>
 
-    <section id="part2">
-        <h2>Part 2: Color and Range Inputs</h2>
-        <label>
-            Favorite Color:
-            <input id="colorInput" type="color" value="#00AAFF">
-        </label>
-        <label>
-            Volume:
-            <input id="volumeInput" type="range" min="0" max="100" value="50">
-        </label>
-        <div class="output" id="colorOutput"></div>
-    </section>
+  <!-- PART 2 -->
+  <section id="part2">
+    <h2>Part 2: Color and Range Inputs</h2>
+    <label>
+      Favorite Color:
+      <input id="colorInput" type="color" value="#733C85" />
+    </label>
+    <label>
+      Volume:
+      <input id="volumeInput" type="range" min="0" max="100" value="50" />
+    </label>
+    <div class="output" id="colorOutput"></div>
+  </section>
 
-    <section id="part3">
-        <h2>Part 3: Checkbox and Radio Buttons</h2>
-        <label><input type="checkbox" id="subscribeBox"> Subscribe to newsletter</label>
-        <p>Pick a mode:</p>
-        <label><input type="radio" name="mode" value="Light"> Light</label>
-        <label><input type="radio" name="mode" value="Dark"> Dark</label>
-        <label><input type="radio" name="mode" value="System" checked> System</label>
-        <button id="btnSubmit">Submit</button>
-        <div class="output" id="modeOutput"></div>
-    </section>
+  <!-- PART 3 -->
+  <section id="part3">
+    <h2>Part 3: Checkbox and Radio Buttons</h2>
+    <label><input type="checkbox" id="subscribeBox" /> Subscribe to MrBeast</label>
+    <p>Pick a mode:</p>
+    <label><input type="radio" name="mode" value="Light" /> Light</label>
+    <label><input type="radio" name="mode" value="Dark" /> Dark</label>
+    <label><input type="radio" name="mode" value="System" checked /> System</label>
+    <button id="btnSubmit">Submit</button>
+    <div class="output" id="modeOutput"></div>
+  </section>
 
-    <script>
-        // --- PART 1 ---
-        const nameInput = document.getElementById("nameInput");
-        const ageInput = document.getElementById("ageInput");
-        const btnGreet = document.getElementById("btnGreet");
-        const greetingOutput = document.getElementById("greetingOutput");
+  <script>
+    // --- PART 1 ---
+    const nameInput = document.getElementById("nameInput");
+    const ageInput = document.getElementById("ageInput");
+    const btnGreet = document.getElementById("btnGreet");
+    const greetingOutput = document.getElementById("greetingOutput");
 
-        btnGreet.addEventListener("click", () => {
-            // TODO: Display a message like "Hello NAME, you are AGE years old!"
-            // Challenge: If age < 13, show "You're just a kid!" instead.
-        });
+    btnGreet.addEventListener("click", () => {
+      const name = nameInput.value;
+      const age = ageInput.value;
 
-        // --- PART 2 ---
-        const colorInput = document.getElementById("colorInput");
-        const volumeInput = document.getElementById("volumeInput");
-        const colorOutput = document.getElementById("colorOutput");
+      if (!name || !age) {
+        greetingOutput.innerText = "Please enter both your name and age.";
+        return;
+      }
 
-        // TODO: Update the background color of colorOutput whenever the color input changes.
-        // Challenge: Also display the hex code and volume value dynamically.
+      if (age < 13) {
+        greetingOutput.innerText = `Hello ${name}, you're just a kid!`;
+      } else {
+        greetingOutput.innerText = `Hello ${name}, you are ${age} years old!`;
+      }
+    });
 
-        // --- PART 3 ---
-        const subscribeBox = document.getElementById("subscribeBox");
-        const btnSubmit = document.getElementById("btnSubmit");
-        const modeOutput = document.getElementById("modeOutput");
+    // --- PART 2 ---
+    const colorInput = document.getElementById("colorInput");
+    const volumeInput = document.getElementById("volumeInput");
+    const colorOutput = document.getElementById("colorOutput");
+    colorInput.addEventListener("input", updateColorAndVolume);
+    volumeInput.addEventListener("input", updateColorAndVolume);
 
-        btnSubmit.addEventListener("click", () => {
-            // TODO: Find which radio button is checked and display it.
-            // Challenge: Include whether the user subscribed or not.
-        });
-    </script>
+    function updateColorAndVolume() {
+      document.body.style.backgroundColor = colorInput.value;
+      colorOutput.textContent = `Background color: ${colorInput.value}, Volume: ${volumeInput.value}`;
+    }
+
+    // --- PART 3 ---
+    const subscribeBox = document.getElementById("subscribeBox");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const modeOutput = document.getElementById("modeOutput");
+
+    btnSubmit.addEventListener("click", () => {
+      const selectedRad = document.querySelector('input[name="mode"]:checked').value;
+      const subscribedMrbest = subscribeBox.checked
+        ? "You are subscribed to MrBeest."
+        : "You are not subscribed to MrBeest.";
+      const currentVolume = volumeInput.value;
+
+      modeOutput.innerText = `Radeeeo that was selected: ${selectedRad}. ${subscribedMrbest} And volume is ${currentVolume}.`;
+    });
+  </script>
 </body>
-
 </html>
