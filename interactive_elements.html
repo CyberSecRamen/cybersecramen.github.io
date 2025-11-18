@@ -1,41 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive elements!</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Interactive Elements</h1>
-    <p>This page shows elements!</p>
-    <p>This is balon, control it with arrow up and down. (Arrow keys up and down are unusable when in interaction.)</p>
-    <p id="balon">🎈</p>
-<script>
-  let fontSize= 10;
-  const balon = document.getElementById("balon");
 
-  
-  window.addEventListener("keydown", function(event) {
-    
-    
-    if (event.key === "ArrowUp") {
-     fontSize *= 1.1;
-      balon.style.fontSize = fontSize + "px"
-      if (fontSize > 50) {
-        balon.innerText = "💥"
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive elements!</title>
+  <link rel="stylesheet" href="interactive_elements.css">
+</head>
+
+<body>
+  <h1>Interactive Elements</h1>
+  <p>This page shows elements!</p>
+  <p>This is balon, control it with arrow up and down. (Arrow keys up and down are unusable when in interaction.)</p>
+  <p id="balon">🎈</p>
+  <br>
+  <div id="widgetproject">
+    <p>Points:</p>
+    <p id="points">0</p>
+    <button id="bigclick" onclick="onebigclick">bigClickNotLoaded</buttton>
+      <script>
+        document.getElementById("bigclick")
+        function onebigclick () {
+        points.textContent = "test"
+        }
+      </script>
+  </div>
+  <br>
+  <a href="/index.html">Home Page</a>
+  <script>
+    let fontSize = 10;
+    const balon = document.getElementById("balon");
+
+
+    window.addEventListener("keydown", function (event) {
+
+
+      if (event.key === "ArrowUp") {
+        fontSize *= 1.1;
+        balon.style.fontSize = fontSize + "px"
+        if (fontSize > 50) {
+          balon.innerText = "💥"
+        }
+        event.preventDefault();
       }
-    event.preventDefault();
-  } 
-    
-    if (event.key === "ArrowDown") {
-      fontSize /= 1.1;
-      balon.style.fontSize = fontSize + "px"
-      event.preventDefault();
-    
-    }
-  });
-</script>
-    <a href="/index.html">Home Page</a>
+
+      if (event.key === "ArrowDown") {
+        fontSize /= 1.1;
+        balon.style.fontSize = fontSize + "px"
+        event.preventDefault();
+
+      }
+    });
+  </script>
 </body>
+
 </html>
