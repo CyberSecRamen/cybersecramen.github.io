@@ -22,66 +22,73 @@
     <p id="usernameDisplaeyyy"></p>
     <p>Points:</p>
     <p id="points">0</p>
-  <div style="display:flex; align-items:flex-start; gap:50px; border:10px groove white; padding:20px;">
-    <button id="bigclick" onclick="onebigclick()" style="padding:0; border:none; background:none;">
-     <img src="buttonimg.png" alt="bigclickbuttoncleek" style="width:250px; height:250px;">
-    </button>
-    <div>
-      <button id="autoclickupgrade" onclick="upgrade1clicked()">Buy Auto Clicker (50 POINTS)</button>
-      <p id="autoclickerupgradetimespurchasedcounter">Auto Clicker is not purchased yet!</p>
-      <label for="me!">
-        Auto-buy Auto Clicker?:
-      <input type="checkbox" id="autoBuyCheckbutton" style="width:30px; height:30px;">    
-      </label>
+    <div style="display:flex; align-items:flex-start; gap:50px; border:10px groove white; padding:20px;">
+      <button id="bigclick" onclick="onebigclick()" style="padding:0; border:none; background:none;">
+        <img src="buttonimg.png" alt="bigclickbuttoncleek" style="width:250px; height:250px;">
+      </button>
+      <div>
+        <button id="autoclickupgrade" onclick="upgrade1clicked()">Buy Auto Clicker (50 POINTS)</button>
+        <p id="autoclickerupgradetimespurchasedcounter">Auto Clicker is not purchased yet!</p>
+        <label>
+          Auto-buy Auto Clicker?:
+          <input type="checkbox" id="autoBuyCheckbutton" style="width:30px; height:30px;">
+        </label>
+      </div>
     </div>
-  </div>
-      <script>
-        let points = document.getElementById("points")
-        let pontkeent = 0
-        function saveDeesUsername() {
-          const usernameDis = document.getElementById("usernameDisplaeyyy");
-          const usernameInp = document.getElementById("usernameInputTagThatMrSFWanted!");
-          const username = usernameInp.value;
-          usernameDis.textContent = `Welcome to button clicker ${username}!`;
-          // HEY! YOU CANT INSPECT TO CHEAT! //
-          if (username === "Nicholas Sullivan Freidman") {
-        pontkeent = 9999999999999999;
+    <script>
+      let points = document.getElementById("points")
+      let pontkeent = 0
+      function saveDeesUsername() {
+        const usernameDis = document.getElementById("usernameDisplaeyyy");
+        const usernameInp = document.getElementById("usernameInputTagThatMrSFWanted!");
+        const username = usernameInp.value;
+        usernameDis.textContent = `Welcome to button clicker ${username}!`;
+        // HEY! YOU CANT INSPECT TO CHEAT! //
+        if (username === "Nicholas Sullivan-Friedman") {
+          pontkeent = 9999999999999999;
+          points.textContent = pontkeent.toString();
+          return;
+        }
+      }
+      setLocalStorageClicks()
+      function setLocalStorageClicks() {
+        pontkeent = +localStorage.getItem("pontkeentstorage");
         points.textContent = pontkeent.toString();
         return;
       }
-        }
-        document.getElementById("bigclick");
-        const autoClickerpurchascounteer = document.getElementById("autoclickerupgradetimespurchasedcounter")
-        let autoClickCost = 50
-        let timesautoclickerwaspurchased = 0
-        setInterval(function () {
-              pontkeent += timesautoclickerwaspurchased;
-              points.textContent = pontkeent;
-            }, 1000);
-        function onebigclick () {
-          pontkeent += 1
+      const autoClickerpurchascounteer = document.getElementById("autoclickerupgradetimespurchasedcounter")
+      let autoClickCost = 50
+      let timesautoclickerwaspurchased = 0
+      setInterval(function () {
+        pontkeent += timesautoclickerwaspurchased;
+        points.textContent = pontkeent;
+      }, 1000);
+      function onebigclick() {
+        pontkeent += 1
         points.textContent = pontkeent
-        }
-        setInterval(function () {
+        localStorage.setItem("pontkeentstorage", pontkeent)
+
+      }
+      setInterval(function () {
         const autoBuyIsOn = document.getElementById("autoBuyCheckbutton").checked;
         if (autoBuyIsOn && pontkeent >= autoClickCost) {
-        upgrade1clicked();
+          upgrade1clicked();
         }
       }, 200);
-      </script>
-      <script>
-        function upgrade1clicked () {
-          if (pontkeent < autoClickCost) {
-            alert("Insufficent balance");
-            return;
-          }
-            pontkeent = pontkeent - autoClickCost;
-            points.textContent = pontkeent;
-            timesautoclickerwaspurchased += 1
-            const isupgrade1clicked = document.getElementById("autoclickupgrade");
-            autoClickerpurchascounteer.textContent = `Auto Clicker: ${timesautoclickerwaspurchased} clicks per second!`;
-          }
-      </script>
+    </script>
+    <script>
+      function upgrade1clicked() {
+        if (pontkeent < autoClickCost) {
+          alert("Insufficent balance");
+          return;
+        }
+        pontkeent = pontkeent - autoClickCost;
+        points.textContent = pontkeent;
+        timesautoclickerwaspurchased += 1
+        const isupgrade1clicked = document.getElementById("autoclickupgrade");
+        autoClickerpurchascounteer.textContent = `Auto Clicker: ${timesautoclickerwaspurchased} clicks per second!`;
+      }
+    </script>
   </div>
   <br>
   <a href="/index.html">Home Page</a>
