@@ -1,0 +1,8 @@
+.grooveborder {
+display:flex; 
+align-items:flex-start; 
+gap:20px; 
+border:10px 
+groove white; 
+padding:5px;
+}
