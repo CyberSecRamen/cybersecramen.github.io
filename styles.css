@@ -1,11 +1,11 @@
 html {
---text: #ffffff;
---background: #000000;
---primary: #000000;
---secondary: #000000;
---accent: #000000;
---headings2: #48ff00;
---lists: #ff0000;
+    --text: #ffffff;
+    --background: #000000;
+    --primary: #000000;
+    --secondary: #000000;
+    --accent: #000000;
+    --headings2: #48ff00;
+    --lists: #ff0000;
 }
 
 body {
@@ -14,6 +14,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
 }
 
 h2 {
@@ -21,11 +22,10 @@ h2 {
     border: 2px groove white;
     padding: 12px;
     width: 300px;
-    height: 10px;
     margin: 2px;
 }
 
-ol>li {
+ol > li {
     color: var(--lists);
 }
 
@@ -58,43 +58,3 @@ img:hover {
 a[href="/class_links.html"] {
   color: rgb(255, 0, 0);
 }
-
-h1 {
-    width:300px;
-    height:200px;
-}
-
-/* keep the images in a row */
-.image-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    position: relative;
-}
-
-/* push the left image left */
-.image-row img:first-child {
-    transform: translateX(-220px);
-}
-
-/* push the right image right */
-.image-row img:last-child {
-    transform: translateX(220px);
-}
-
-/* pull "My Hobbies" up between the images */
-h2:first-of-type {
-    margin-top: -140px;    /* move this heading UP */
-    text-align: center;
-    position: relative;
-    z-index: 10;           /* keep it above the images */
-}
-
-/* tighten gap under the main header at the very top */
-h1 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-
-
