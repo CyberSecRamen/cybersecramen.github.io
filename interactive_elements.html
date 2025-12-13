@@ -9,6 +9,13 @@
 </head>
 
 <body>
+  <nav class="grooveborder">
+    <a href="/class_links.html">Class Links</a>
+    <a href="/networking.html">Networking</a>
+    <a href="/interactive_elements.html">Interactive Elements</a>
+    <a href="/index.html">My Website Homepage</a>
+    <a href="https://github.com/Cybersecramen" target="_blank">My Github Home Page</a>
+  </nav>
   <h1>Interactive Elements</h1>
   <p>This page shows elements!</p>
   <p>This is balon, control it with arrow up and down. (Arrow keys up and down are unusable when in interaction.)</p>
@@ -18,8 +25,8 @@
   <div id="widgetproject">
     <p>Add a username:</p>
     <input id="usernameInputTagThatMrSFWanted!" type="text" placeholder="Enter username or else!">
-    <button onclick="saveDeesUsername()">Save this username rn</button>
-    <p id="usernameDisplaeyyy"></p>
+    <button onclick="saveThisUsername()">Save this username rn</button>
+    <p id="usernameDisplay"></p>
     <p>Points:</p>
     <p id="points">0</p>
     <div style="display:flex; align-items:flex-start; gap:50px; border:10px groove white; padding:20px;">
@@ -27,7 +34,7 @@
         <img src="buttonimg.png" alt="bigclickbuttoncleek" style="width:250px; height:250px;">
       </button>
       <div>
-        <button id="autoclickupgrade" onclick="upgrade1clicked()">Buy Auto Clicker (50 POINTS)</button>
+        <button id="autoClickUpgrade" onclick="upgrade1clicked()">Buy Auto Clicker (50 POINTS)</button>
         <p id="autoclickerupgradetimespurchasedcounter">Auto Clicker is not purchased yet!</p>
         <label>
           Auto-buy Auto Clicker?:
@@ -37,61 +44,60 @@
     </div>
     <script>
       let points = document.getElementById("points")
-      let pontkeent = 0
-      function saveDeesUsername() {
-        const usernameDis = document.getElementById("usernameDisplaeyyy");
+      let pointcount = 0
+      function saveThisUsername() {
+        const usernameDis = document.getElementById("usernameDisplay");
         const usernameInp = document.getElementById("usernameInputTagThatMrSFWanted!");
         const username = usernameInp.value;
         usernameDis.textContent = `Welcome to button clicker ${username}!`;
         // HEY! YOU CANT INSPECT TO CHEAT! nuh uh//
         if (username === "Nicholas Sullivan-Friedman") {
-          pontkeent = 9999999999999999;
-          points.textContent = pontkeent.toString();
+          pointcount = 9999999999999999;
+          points.textContent = pointcount.toString();
           return;
         }
       }
       setLocalStorageClicks()
       function setLocalStorageClicks() {
-        pontkeent = +localStorage.getItem("pontkeentstorage");
-        points.textContent = pontkeent.toString();
+        pointcount = +localStorage.getItem("pointcountstorage");
+        points.textContent = pointcount.toString();
         return;
       }
       const autoClickerpurchascounteer = document.getElementById("autoclickerupgradetimespurchasedcounter")
       let autoClickCost = 50
       let timesautoclickerwaspurchased = 0
       setInterval(function () {
-        pontkeent += timesautoclickerwaspurchased;
-        points.textContent = pontkeent;
+        pointcount += timesautoclickerwaspurchased;
+        points.textContent = pointcount;
       }, 1000);
       function onebigclick() {
-        pontkeent += 1
-        points.textContent = pontkeent
-        localStorage.setItem("pontkeentstorage", pontkeent)
+        pointcount += 1
+        points.textContent = pointcount
+        localStorage.setItem("pointcountstorage", pointcount)
 
       }
       setInterval(function () {
         const autoBuyIsOn = document.getElementById("autoBuyCheckbutton").checked;
-        if (autoBuyIsOn && pontkeent >= autoClickCost) {
+        if (autoBuyIsOn && pointcount >= autoClickCost) {
           upgrade1clicked();
         }
       }, 200);
     </script>
     <script>
       function upgrade1clicked() {
-        if (pontkeent < autoClickCost) {
+        if (pointcount < autoClickCost) {
           alert("Insufficent balance");
           return;
         }
-        pontkeent = pontkeent - autoClickCost;
-        points.textContent = pontkeent;
+        pointcount = pointcount - autoClickCost;
+        points.textContent = pointcount;
         timesautoclickerwaspurchased += 1
-        const isupgrade1clicked = document.getElementById("autoclickupgrade");
+        const isUpgrade1Clicked = document.getElementById("autoClickUpgrade");
         autoClickerpurchascounteer.textContent = `Auto Clicker: ${timesautoclickerwaspurchased} clicks per second!`;
       }
     </script>
   </div>
   <br>
-  <a href="/index.html">Home Page</a>
   <script>
     let fontSize = 10;
     const balon = document.getElementById("balon");
