@@ -11,12 +11,259 @@
 <body>
     <nav class="grooveborder">
         <a href="/class_links.html">Class Links</a>
-        <a href="/networking.html">Networking</a>
         <a href="/interactive_elements.html">Interactive Elements</a>
         <a href="/index.html">My Website Homepage</a>
         <a href="https://github.com/Cybersecramen" target="_blank">My Github Home Page</a>
+        <a href="/input_elements_challenge.html">Input Elements</a>
+    </nav>
     <h1 class="title-of-homepage">Networking</h1>
-    <p>Has this page loaded?: YES</p>
+    <p>Network Widget From ChatGPT</p>
+    <!-- UA + Public IP + Geo/ISP Widget (no deps) -->
+<div id="ua-widget" style="font:14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 860px; border: 1px solid #ddd; border-radius: 12px; padding: 14px;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+    <div>
+      <div style="font-weight:700; font-size:16px;">Browser, Network & IP Info</div>
+      <div id="ua-widget-updated" style="color:#666; font-size:12px;"></div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <label style="display:flex; align-items:center; gap:6px; color:#444; font-size:12px;">
+        IPinfo token (optional):
+        <input id="ipinfo-token" placeholder="paste token (optional)" style="padding:7px 10px; border:1px solid #ccc; border-radius:10px; width:220px;">
+      </label>
+      <button id="ua-copy" type="button" style="padding:8px 10px; border:1px solid #ccc; border-radius:10px; background:#fff; cursor:pointer;">Copy JSON</button>
+      <button id="ua-refresh" type="button" style="padding:8px 10px; border:1px solid #ccc; border-radius:10px; background:#fff; cursor:pointer;">Refresh</button>
+    </div>
+  </div>
+
+  <div id="ua-widget-body" style="margin-top:12px; display:grid; grid-template-columns: 1fr; gap:10px;"></div>
+
+  <details style="margin-top:10px;">
+    <summary style="cursor:pointer; user-select:none;">Raw JSON</summary>
+    <pre id="ua-json" style="white-space:pre-wrap; word-break:break-word; background:#fafafa; border:1px solid #eee; padding:10px; border-radius:10px; overflow:auto;"></pre>
+  </details>
+
+  <div id="ua-note" style="margin-top:10px; color:#666; font-size:12px;"></div>
+</div>
+
+<script>
+(function () {
+  const elBody = document.getElementById("ua-widget-body");
+  const elJSON = document.getElementById("ua-json");
+  const elUpdated = document.getElementById("ua-widget-updated");
+  const elNote = document.getElementById("ua-note");
+  const btnCopy = document.getElementById("ua-copy");
+  const btnRefresh = document.getElementById("ua-refresh");
+  const ipinfoTokenInput = document.getElementById("ipinfo-token");
+
+  function row(label, value) {
+    const safeVal = (value === undefined || value === null || value === "") ? "—" : String(value);
+    return `
+      <div style="display:flex; gap:12px; padding:10px; border:1px solid #eee; border-radius:10px; background:#fff;">
+        <div style="min-width:190px; color:#444; font-weight:600;">${label}</div>
+        <div style="color:#111; word-break:break-word;">${safeVal}</div>
+      </div>
+    `;
+  }
+
+  async function safeFetchJSON(url, opts) {
+    const res = await fetch(url, opts);
+    if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+    return await res.json();
+  }
+
+  async function getPublicIP() {
+    // ipify JSON endpoint
+    // Note: some environments/ad-blockers may block 3rd party calls.
+    try {
+      const j = await safeFetchJSON("https://api.ipify.org?format=json", { cache: "no-store" });
+      return j.ip || null;
+    } catch {
+      // Try IPv4/IPv6 combined endpoint
+      try {
+        const j = await safeFetchJSON("https://api64.ipify.org?format=json", { cache: "no-store" });
+        return j.ip || null;
+      } catch {
+        return null;
+      }
+    }
+  }
+
+  async function getIPInfo(ip, token) {
+    if (!ip) return null;
+
+    // IPinfo supports token-based access for more reliable results/limits.
+    // Without token, availability depends on their current anonymous access policy.
+    const url = token
+      ? `https://ipinfo.io/${encodeURIComponent(ip)}?token=${encodeURIComponent(token)}`
+      : `https://ipinfo.io/${encodeURIComponent(ip)}/json`;
+
+    try {
+      return await safeFetchJSON(url, { cache: "no-store" });
+    } catch {
+      return null;
+    }
+  }
+
+  async function getUADataSafe() {
+    const uaData = navigator.userAgentData;
+    if (!uaData) return null;
+
+    const basic = { mobile: uaData.mobile, brands: uaData.brands };
+    let high = null;
+    try {
+      high = await uaData.getHighEntropyValues([
+        "architecture","bitness","model","platform","platformVersion","uaFullVersion","fullVersionList"
+      ]);
+    } catch {}
+    return { basic, high };
+  }
+
+  function collectSync() {
+    const nav = navigator;
+    const scr = screen;
+    const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
+
+    return {
+      timestamp: new Date().toISOString(),
+
+      // UA
+      userAgent: nav.userAgent,
+      platformLegacy: nav.platform,
+      language: nav.language,
+      languages: nav.languages,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+
+      // Display
+      screen: {
+        width: scr.width,
+        height: scr.height,
+        availWidth: scr.availWidth,
+        availHeight: scr.availHeight,
+        colorDepth: scr.colorDepth,
+        pixelDepth: scr.pixelDepth,
+        devicePixelRatio: window.devicePixelRatio
+      },
+      viewport: {
+        innerWidth: window.innerWidth,
+        innerHeight: window.innerHeight
+      },
+
+      // Capabilities
+      hardwareConcurrency: nav.hardwareConcurrency,
+      deviceMemoryGB: nav.deviceMemory,
+      maxTouchPoints: nav.maxTouchPoints,
+
+      // Privacy/storage
+      cookieEnabled: nav.cookieEnabled,
+      doNotTrack: nav.doNotTrack,
+      storage: {
+        localStorage: (() => { try { return !!window.localStorage; } catch { return false; } })(),
+        sessionStorage: (() => { try { return !!window.sessionStorage; } catch { return false; } })(),
+        indexedDB: !!window.indexedDB
+      },
+
+      // Network hints
+      online: nav.onLine,
+      connection: conn ? {
+        effectiveType: conn.effectiveType,
+        downlink: conn.downlink, // Mbps est.
+        rtt: conn.rtt,           // ms est.
+        saveData: conn.saveData
+      } : null,
+
+      // Page context
+      location: {
+        href: location.href,
+        origin: location.origin,
+        pathname: location.pathname
+      },
+      referrer: document.referrer || null
+    };
+  }
+
+  function prettyLoc(ipinfo) {
+    if (!ipinfo) return "—";
+    const parts = [];
+    if (ipinfo.city) parts.push(ipinfo.city);
+    if (ipinfo.region) parts.push(ipinfo.region);
+    if (ipinfo.country) parts.push(ipinfo.country);
+    return parts.length ? parts.join(", ") : "—";
+  }
+
+  async function render() {
+    const base = collectSync();
+    const token = (ipinfoTokenInput.value || "").trim();
+
+    const [uaData, publicIP] = await Promise.all([
+      getUADataSafe(),
+      getPublicIP()
+    ]);
+
+    const ipinfo = await getIPInfo(publicIP, token);
+
+    const full = { ...base, userAgentData: uaData, publicIP, ipinfo };
+
+    elUpdated.textContent = `Updated: ${new Date().toLocaleString()}`;
+
+    elBody.innerHTML = [
+      row("Public IPv4", full.publicIP),
+      row("IP (geo approx)", prettyLoc(full.ipinfo)),
+      row("IP Org / ISP", full.ipinfo?.org || "—"),
+      row("IP ASN", full.ipinfo?.asn?.asn || full.ipinfo?.asn || "—"),
+      row("IP Coordinates", full.ipinfo?.loc || "—"),
+      row("IP Timezone (from IP)", full.ipinfo?.timezone || "—"),
+      row("User-Agent", full.userAgent),
+      row("Platform (legacy)", full.platformLegacy),
+      row("UA Client Hints", full.userAgentData ? JSON.stringify(full.userAgentData.basic) : "—"),
+      row("Languages", Array.isArray(full.languages) ? full.languages.join(", ") : full.language),
+      row("Browser Timezone", full.timezone),
+      row("Screen", `${full.screen.width}×${full.screen.height} (avail ${full.screen.availWidth}×${full.screen.availHeight}), DPR ${full.screen.devicePixelRatio}`),
+      row("Viewport", `${full.viewport.innerWidth}×${full.viewport.innerHeight}`),
+      row("CPU Threads", full.hardwareConcurrency),
+      row("Device Memory", full.deviceMemoryGB ? `${full.deviceMemoryGB} GB (approx)` : "—"),
+      row("Touch Points", full.maxTouchPoints),
+      row("Cookies Enabled", full.cookieEnabled),
+      row("Do Not Track", full.doNotTrack ?? "—"),
+      row("Online", full.online),
+      row("Connection", full.connection
+        ? `${full.connection.effectiveType || "—"}, ${full.connection.rtt ?? "—"} ms RTT, ${full.connection.downlink ?? "—"} Mbps down, Save-Data: ${full.connection.saveData}`
+        : "—"),
+      row("Page URL", full.location.href),
+      row("Referrer", full.referrer || "—")
+    ].join("");
+
+    elJSON.textContent = JSON.stringify(full, null, 2);
+
+    elNote.textContent =
+      "Public IP/geo requires contacting external services (ipify, and optionally IPinfo). Some fields may be missing due to browser privacy protections, ad blockers, CORS, or network policies.";
+  }
+
+  btnCopy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(elJSON.textContent);
+      btnCopy.textContent = "Copied!";
+      setTimeout(() => (btnCopy.textContent = "Copy JSON"), 900);
+    } catch {
+      const range = document.createRange();
+      range.selectNode(elJSON);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand("copy");
+      sel.removeAllRanges();
+      btnCopy.textContent = "Copied!";
+      setTimeout(() => (btnCopy.textContent = "Copy JSON"), 900);
+    }
+  });
+
+  btnRefresh.addEventListener("click", render);
+  window.addEventListener("resize", render);
+
+  render();
+})();
+</script>
+
+
 </body>
 
 </html>
