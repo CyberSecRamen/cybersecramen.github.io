@@ -13,6 +13,13 @@
       transition: background-color 0.3s;
     }
 
+    h1.title-of-page {
+      font-size: 2rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      text-align: center;
+
+    }
+
     section {
       margin-bottom: 1.5rem;
     }
@@ -32,21 +39,20 @@
     }
 
     .grooveborder {
-    display:flex; 
-    align-items:flex-start; 
-    gap:20px; 
-    border:10px 
-    groove white; 
-    padding:5px;
-}
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      border: 10px groove white;
+      padding: 5px;
+    }
 
-nav :link {
-  color: rgb(255, 0, 0);
-}
+    nav :link {
+      color: rgb(255, 0, 0);
+    }
 
-nav :visited {
-  color: rgb(179, 255, 0);
-}
+    nav :visited {
+      color: rgb(179, 255, 0);
+    }
   </style>
 </head>
 
@@ -58,7 +64,7 @@ nav :visited {
     <a href="/index.html">My Website Homepage</a>
     <a href="https://github.com/Cybersecramen" target="_blank">My Github Home Page</a>
   </nav>
-  <h1>Input Element Challenge</h1>
+  <h1 class="title-of-page">Input Element Challenge</h1>
 
   <!-- PART 1 -->
   <section id="part1">
@@ -143,12 +149,12 @@ nav :visited {
 
     btnSubmit.addEventListener("click", () => {
       const selectedRad = document.querySelector('input[name="mode"]:checked').value;
-      const subscribedMrbest = subscribeBox.checked
-        ? "You are subscribed to MrBeest."
-        : "You are not subscribed to MrBeest.";
+      const subscribedMrBeast = subscribeBox.checked
+        ? "You are subscribed to MrBeast."
+        : "You are not subscribed to MrBeast.";
       const currentVolume = volumeInput.value;
 
-      modeOutput.innerText = `Radeeeo that was selected: ${selectedRad}. ${subscribedMrbest} And volume is ${currentVolume}.`;
+      modeOutput.innerText = `Radeo input that was selected: ${selectedRad}. ${subscribedMrBeast} And volume is ${currentVolume}.`;
     });
   </script>
 </body>
